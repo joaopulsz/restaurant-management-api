@@ -26,6 +26,14 @@ public abstract class Bill {
         this.orders = new ArrayList<>();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public List<MenuItem> getOrders() {
         return orders;
     }
