@@ -34,4 +34,32 @@ public class BillService {
     public Optional<Takeaway> getTakeawayById(int id) {
         return takeawayRepository.findById(id);
     }
+
+    public Table addTable(Table table) {
+        tableRepository.save(table);
+        return table;
+    }
+
+    public Takeaway addTakeaway(Takeaway takeaway) {
+        takeawayRepository.save(takeaway);
+        return takeaway;
+    }
+
+    public boolean removeTableById(int id) {
+        Optional<Table> tableToRemove = tableRepository.findById(id);
+        if (tableToRemove.isPresent()) {
+            tableRepository.delete(tableRepository.findById(id).get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeTakeawayById(int id) {
+        Optional<Takeaway> takeawayToRemove = takeawayRepository.findById(id);
+        if (takeawayToRemove.isPresent()) {
+            takeawayRepository.delete(takeawayRepository.findById(id).get());
+            return true;
+        }
+        return false;
+    }
 }

@@ -35,4 +35,34 @@ public class MenuItemService {
         return drinkRepository.findById(id);
     }
 
+    public Dish addDish(Dish dish) {
+        dishRepository.save(dish);
+        return dish;
+    }
+
+    public Drink addDrink(Drink drink) {
+        drinkRepository.save(drink);
+        return drink;
+    }
+
+    public boolean removeDishById(int id) {
+        Optional<Dish> dishToRemove = dishRepository.findById(id);
+        if (dishToRemove.isPresent()) {
+            dishRepository.delete(dishRepository.findById(id).get());
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean removeDrinkById(int id) {
+        Optional<Drink> drinkToRemove = drinkRepository.findById(id);
+        if (drinkToRemove.isPresent()) {
+            drinkRepository.delete(drinkRepository.findById(id).get());
+            return true;
+        }
+        return false;
+
+    }
+
 }

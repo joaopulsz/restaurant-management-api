@@ -22,4 +22,18 @@ public class BookingService {
         return bookingRepository.findById(id);
     }
 
+    public Booking addBooking(Booking booking) {
+        bookingRepository.save(booking);
+        return booking;
+    }
+
+    public boolean removeBookingById(int id) {
+        Optional<Booking> bookingToRemove = bookingRepository.findById(id);
+        if (bookingToRemove.isPresent()) {
+            bookingRepository.delete(bookingRepository.findById(id).get());
+            return true;
+        }
+        return false;
+    }
+
 }
