@@ -31,11 +31,13 @@ public class DataLoader implements ApplicationRunner {
         Restaurant joaosBurgers = new Restaurant();
 
         Dish doubleWithCheese = new Dish("Double with Cheese", 10.00);
-        Dish baconAndOnion = new Dish("Bacon and Onion", 10.00);
+        Dish baconAndOnion = new Dish("Bacon and Onion Burger", 10.00);
+        Dish vegBurger = new Dish("Mushroom patty", 8.00);
         Dish rosemaryFries = new Dish("Rosemary Fries", 3.50);
         Dish chickenWings = new Dish("Chicken Wings", 6.00);
         dishRepository.save(doubleWithCheese);
         dishRepository.save(baconAndOnion);
+        dishRepository.save(vegBurger);
         dishRepository.save(rosemaryFries);
         dishRepository.save(chickenWings);
 
@@ -59,6 +61,9 @@ public class DataLoader implements ApplicationRunner {
 
         joaosBurgers.getBookings().put("Friday", booking1);
         joaosBurgers.getBookings().put("Saturday", booking2);
+
+        bookingRepository.save(booking1);
+        bookingRepository.save(booking2);
 
         restaurantRepository.save(joaosBurgers);
     }
