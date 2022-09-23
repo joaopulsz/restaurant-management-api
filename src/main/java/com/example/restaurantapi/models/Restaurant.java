@@ -2,9 +2,7 @@ package com.example.restaurantapi.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity(name = "restaurant")
 public class Restaurant {
@@ -17,10 +15,6 @@ public class Restaurant {
     private double till;
 
     @OneToMany
-    @JoinColumn(name = "restaurant_menu")
-    private List<MenuItem> menu;
-
-    @OneToMany
     @JoinColumn(name = "bill_id")
     private List<Bill> closedBills;
 
@@ -28,16 +22,10 @@ public class Restaurant {
     @JoinColumn(name = "bill_id")
     private List<Bill> openBills;
 
-    @OneToMany
-    @JoinColumn(name = "booking_id")
-    private Map<String, Booking> bookings;
-
     public Restaurant() {
         this.till = 0.0;
-        this.menu = new ArrayList<>();
         this.closedBills = new ArrayList<>();
         this.openBills = new ArrayList<>();
-        this.bookings = new HashMap<>();
     }
 
     public int getId() {
@@ -56,14 +44,6 @@ public class Restaurant {
         this.till = till;
     }
 
-    public List<MenuItem> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(List<MenuItem> menu) {
-        this.menu = menu;
-    }
-
     public List<Bill> getClosedBills() {
         return closedBills;
     }
@@ -80,11 +60,4 @@ public class Restaurant {
         this.openBills = openBills;
     }
 
-    public Map<String, Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(Map<String, Booking> bookings) {
-        this.bookings = bookings;
-    }
 }

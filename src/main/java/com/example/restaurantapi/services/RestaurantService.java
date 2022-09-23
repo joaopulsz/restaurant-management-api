@@ -20,10 +20,6 @@ public class RestaurantService {
         return restaurantRepository.findById(1).get().getTill();
     }
 
-    public List<MenuItem> getMenu() {
-        return restaurantRepository.findById(1).get().getMenu();
-    }
-
     public List<Bill> getClosedBills() {
         return restaurantRepository.findById(1).get().getClosedBills();
     }
@@ -32,7 +28,4 @@ public class RestaurantService {
         return restaurantRepository.findById(1).get().getOpenBills();
     }
 
-    public Map<String, Booking> getBookings() {
-        return restaurantRepository.findById(1).get().getBookings();
-    }
 }

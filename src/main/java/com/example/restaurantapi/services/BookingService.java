@@ -27,6 +27,18 @@ public class BookingService {
         return booking;
     }
 
+    public Booking updateBookingById(int id, Booking booking) {
+        Optional<Booking> bookingToUpdate = bookingRepository.findById(id);
+        if (bookingToUpdate.isPresent()) {
+            bookingToUpdate.get().setName(booking.getName());
+            bookingToUpdate.get().setDateAndTime(booking.getDateAndTime());
+            bookingToUpdate.get().setTableNumber(booking.getTableNumber());
+            bookingRepository.save(bookingToUpdate.get());
+            return bookingToUpdate.get();
+        }
+        return null;
+    }
+
     public boolean removeBookingById(int id) {
         Optional<Booking> bookingToRemove = bookingRepository.findById(id);
         if (bookingToRemove.isPresent()) {
