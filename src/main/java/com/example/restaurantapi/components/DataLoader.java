@@ -48,19 +48,8 @@ public class DataLoader implements ApplicationRunner {
         drinkRepository.save(juice);
         drinkRepository.save(beer);
 
-        joaosBurgers.getMenu().add(doubleWithCheese);
-        joaosBurgers.getMenu().add(baconAndOnion);
-        joaosBurgers.getMenu().add(rosemaryFries);
-        joaosBurgers.getMenu().add(chickenWings);
-        joaosBurgers.getMenu().add(milkShake);
-        joaosBurgers.getMenu().add(juice);
-        joaosBurgers.getMenu().add(beer);
-
         Booking booking1 = new Booking("Joao", "Friday, 20:00", 5);
         Booking booking2 = new Booking("Pedro", "Saturday, 20:30", 7);
-
-        joaosBurgers.getBookings().put("Friday", booking1);
-        joaosBurgers.getBookings().put("Saturday", booking2);
 
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);

@@ -1,14 +1,11 @@
 package com.example.restaurantapi.services;
 
 import com.example.restaurantapi.models.Bill;
-import com.example.restaurantapi.models.Booking;
-import com.example.restaurantapi.models.MenuItem;
 import com.example.restaurantapi.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RestaurantService {

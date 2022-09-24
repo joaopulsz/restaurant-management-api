@@ -12,13 +12,17 @@ public class Table extends Bill {
     @Column
     private int seats;
 
-    @Column(name = "is_booked")
-    private boolean isBooked;
+    @Column(name = "service_charge")
+    private boolean serviceCharge;
 
-    public Table(int number, int seats, boolean isBooked) {
+    @Column(name = "is_closed")
+    private boolean isClosed;
+
+    public Table(int number, int seats, boolean serviceCharge) {
         this.number = number;
         this.seats = seats;
-        this.isBooked = isBooked;
+        this.serviceCharge = serviceCharge;
+        this.isClosed = false;
     }
 
     public Table() {
@@ -40,11 +44,30 @@ public class Table extends Bill {
         this.seats = seats;
     }
 
-    public boolean isBooked() {
-        return isBooked;
+    public boolean hasServiceCharge() {
+        return serviceCharge;
     }
 
-    public void setBooked(boolean booked) {
-        isBooked = booked;
+    public void setServiceCharge(boolean booked) {
+        serviceCharge = booked;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
+    }
+
+    public double getTotalAmountToPay() {
+        double total = 0;
+        for (MenuItem order : this.getOrders()) {
+            total += order.getPrice();
+        }
+        if (hasServiceCharge()) {
+            return total + total / 10;
+        }
+        return total;
     }
 }

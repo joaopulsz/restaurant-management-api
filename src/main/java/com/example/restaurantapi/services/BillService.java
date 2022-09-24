@@ -1,7 +1,9 @@
 package com.example.restaurantapi.services;
 
+import com.example.restaurantapi.models.MenuItem;
 import com.example.restaurantapi.models.Table;
 import com.example.restaurantapi.models.Takeaway;
+import com.example.restaurantapi.repositories.RestaurantRepository;
 import com.example.restaurantapi.repositories.TableRepository;
 import com.example.restaurantapi.repositories.TakeawayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class BillService {
 
     @Autowired
     TakeawayRepository takeawayRepository;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
 
     public List<Table> getAllTables() {
         return tableRepository.findAll();
@@ -62,4 +67,47 @@ public class BillService {
         }
         return false;
     }
+
+    public boolean addOrderToTableById(int id, MenuItem order) {
+        Optional<Table> table = tableRepository.findById(id);
+        if (table.isPresent()) {
+            table.get().getOrders().add(order);
+            tableRepository.save(table.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addOrderToTakeawayById(int id, MenuItem order) {
+        Optional<Takeaway> takeaway = takeawayRepository.findById(id);
+        if (takeaway.isPresent()) {
+            takeaway.get().getOrders().add(order);
+            takeawayRepository.save(takeaway.get());
+            return true;
+        }
+        return false;
+    }
+
+    public double closeTableById(int id) {
+        Optional<Table> table = tableRepository.findById(id);
+        if (table.isPresent()) {
+            table.get().setClosed(true);
+            restaurantRepository.findById(1).get().getClosedBills().add(table.get());
+            restaurantRepository.save(restaurantRepository.findById(1).get());
+            return table.get().getTotalAmountToPay();
+        }
+        return 0;
+    }
+
+    public double closeTakeawayById(int id) {
+        Optional<Takeaway> takeaway = takeawayRepository.findById(id);
+        if (takeaway.isPresent()) {
+            takeaway.get().setClosed(true);
+            restaurantRepository.findById(1).get().getClosedBills().add(takeaway.get());
+            restaurantRepository.save(restaurantRepository.findById(1).get());
+            return takeaway.get().getTotalAmountToPay();
+        }
+        return 0;
+    }
+
 }
