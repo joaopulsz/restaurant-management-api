@@ -21,8 +21,4 @@ public class RestaurantService {
         return restaurantRepository.findById(1).get().getClosedBills();
     }
 
-    public List<Bill> getOpenBills() {
-        return restaurantRepository.findById(1).get().getOpenBills();
-    }
-
 }
