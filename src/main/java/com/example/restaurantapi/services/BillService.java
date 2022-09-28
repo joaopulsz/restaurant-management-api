@@ -1,12 +1,10 @@
 package com.example.restaurantapi.services;
 
-import com.example.restaurantapi.models.MenuItem;
+import com.example.restaurantapi.models.Dish;
+import com.example.restaurantapi.models.Drink;
 import com.example.restaurantapi.models.Table;
 import com.example.restaurantapi.models.Takeaway;
-import com.example.restaurantapi.repositories.MenuItemRepository;
-import com.example.restaurantapi.repositories.RestaurantRepository;
-import com.example.restaurantapi.repositories.TableRepository;
-import com.example.restaurantapi.repositories.TakeawayRepository;
+import com.example.restaurantapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,10 @@ public class BillService {
     RestaurantRepository restaurantRepository;
 
     @Autowired
-    MenuItemRepository menuItemRepository;
+    DishRepository dishRepository;
+
+    @Autowired
+    DrinkRepository drinkRepository;
 
     public List<Table> getAllTables() {
         return tableRepository.findAll();
@@ -74,22 +75,44 @@ public class BillService {
 
     public Table addOrderToTableById(int tableId, int orderId) {
         Optional<Table> table = tableRepository.findById(tableId);
-        Optional<MenuItem> order = menuItemRepository.findById(orderId);
-        if (table.isPresent() && order.isPresent()) {
-            table.get().getOrders().add(order.get());
-            tableRepository.save(table.get());
-            return table.get();
+        Dish dish;
+        Drink drink;
+        if (dishRepository.findById(orderId).isPresent()) {
+            dish = dishRepository.findById(orderId).get();
+            if (table.isPresent()) {
+                table.get().getOrders().add(dish);
+                tableRepository.save(table.get());
+                return table.get();
+            }
+        } else {
+            drink = drinkRepository.findById(orderId).get();
+            if (table.isPresent()) {
+                table.get().getOrders().add(drink);
+                tableRepository.save(table.get());
+                return table.get();
+            }
         }
         return null;
     }
 
     public Takeaway addOrderToTakeawayById(int takeawayId, int orderId) {
         Optional<Takeaway> takeaway = takeawayRepository.findById(takeawayId);
-        Optional<MenuItem> order = menuItemRepository.findById(orderId);
-        if (takeaway.isPresent() && order.isPresent()) {
-            takeaway.get().getOrders().add(order.get());
-            takeawayRepository.save(takeaway.get());
-            return takeaway.get();
+        Dish dish;
+        Drink drink;
+        if (dishRepository.findById(orderId).isPresent()) {
+            dish = dishRepository.findById(orderId).get();
+            if (takeaway.isPresent()) {
+                takeaway.get().getOrders().add(dish);
+                takeawayRepository.save(takeaway.get());
+                return takeaway.get();
+            }
+        } else {
+            drink = drinkRepository.findById(orderId).get();
+            if (takeaway.isPresent()) {
+                takeaway.get().getOrders().add(drink);
+                takeawayRepository.save(takeaway.get());
+                return takeaway.get();
+            }
         }
         return null;
     }
