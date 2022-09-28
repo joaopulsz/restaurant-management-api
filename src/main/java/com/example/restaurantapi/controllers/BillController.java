@@ -60,6 +60,18 @@ public class BillController {
         return billService.removeTakeawayById(id) ? new ResponseEntity<>("Takeaway removed", HttpStatus.OK) : new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping(value = "/tables/{tableId}/order/{orderId}")
+    public ResponseEntity<Table> addOrderToTableById(@PathVariable int tableId, @PathVariable int orderId) {
+        Table table = billService.addOrderToTableById(tableId, orderId);
+        return table != null ? new ResponseEntity<>(table, HttpStatus.OK) : new ResponseEntity<>(table, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(value = "/takeaways/{takeawayId}/order/{orderId}")
+    public ResponseEntity<Takeaway> addOrderToTakeawayById(@PathVariable int takeawayId, @PathVariable int orderId) {
+        Takeaway takeaway = billService.addOrderToTakeawayById(takeawayId, orderId);
+        return takeaway != null ? new ResponseEntity<>(takeaway, HttpStatus.OK) : new ResponseEntity<>(takeaway, HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping(value = "/tables/close/{id}")
     public ResponseEntity<String> closeTableById(@PathVariable int id) {
         double closedTable = billService.closeTableById(id);

@@ -3,6 +3,7 @@ package com.example.restaurantapi.services;
 import com.example.restaurantapi.models.MenuItem;
 import com.example.restaurantapi.models.Table;
 import com.example.restaurantapi.models.Takeaway;
+import com.example.restaurantapi.repositories.MenuItemRepository;
 import com.example.restaurantapi.repositories.RestaurantRepository;
 import com.example.restaurantapi.repositories.TableRepository;
 import com.example.restaurantapi.repositories.TakeawayRepository;
@@ -23,6 +24,9 @@ public class BillService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    MenuItemRepository menuItemRepository;
 
     public List<Table> getAllTables() {
         return tableRepository.findAll();
@@ -68,24 +72,26 @@ public class BillService {
         return false;
     }
 
-    public boolean addOrderToTableById(int id, MenuItem order) {
-        Optional<Table> table = tableRepository.findById(id);
-        if (table.isPresent()) {
-            table.get().getOrders().add(order);
+    public Table addOrderToTableById(int tableId, int orderId) {
+        Optional<Table> table = tableRepository.findById(tableId);
+        Optional<MenuItem> order = menuItemRepository.findById(orderId);
+        if (table.isPresent() && order.isPresent()) {
+            table.get().getOrders().add(order.get());
             tableRepository.save(table.get());
-            return true;
+            return table.get();
         }
-        return false;
+        return null;
     }
 
-    public boolean addOrderToTakeawayById(int id, MenuItem order) {
-        Optional<Takeaway> takeaway = takeawayRepository.findById(id);
-        if (takeaway.isPresent()) {
-            takeaway.get().getOrders().add(order);
+    public Takeaway addOrderToTakeawayById(int takeawayId, int orderId) {
+        Optional<Takeaway> takeaway = takeawayRepository.findById(takeawayId);
+        Optional<MenuItem> order = menuItemRepository.findById(orderId);
+        if (takeaway.isPresent() && order.isPresent()) {
+            takeaway.get().getOrders().add(order.get());
             takeawayRepository.save(takeaway.get());
-            return true;
+            return takeaway.get();
         }
-        return false;
+        return null;
     }
 
     public double closeTableById(int id) {
